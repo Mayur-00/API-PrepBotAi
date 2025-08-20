@@ -28,16 +28,24 @@ const mcqSchema = new mongoose.Schema(
             required:true,
             default:false
         },
-        score:{
-            type:Number,
-            required:false,
-            default:0
-        }
+    
+         difficulty: {
+            type:String,
+            enum:["easy", "medium", "hard"],
+            default:"Medium"
+        },
+        subject:{
+            type:String,
+            default:"none"
+        },
+      
     }, {
     timestamps: true
 }
 );
 
+mcqSchema.index({ owner: 1, title: 1 });
+mcqSchema.index({ subject: 1, difficulty: 1 });
 
 
 
