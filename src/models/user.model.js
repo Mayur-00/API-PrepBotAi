@@ -31,12 +31,41 @@ const userSchema = new mongoose.Schema(
         refreshToken : {
             type:String
         },
-        recent:[
+
+        currentSubscription : {
+            type: mongoose.Schema.Types.ObjectId,
+            ref:"Subscription"
+        },
+
+        SubscriptionHistory : [
             {
-                type:mongoose.Schema.Types.ObjectId,
-                ref:"Mcq",
+                type : mongoose.Schema.Types.ObjectId,
+                ref:"Subscription"
             }
         ],
+          preferences: {
+            emailNotifications: {
+                type: Boolean,
+                default: true
+            },
+            subscriptionReminders: {
+                type: Boolean,
+                default: true
+            },
+            usageAlerts: {
+                type: Boolean,
+                default: true
+            }
+        },
+        // Account status
+        isActive: {
+            type: Boolean,
+            default: true
+        },
+        lastLoginAt: {
+            type: Date
+        },
+        
    
         
     }, {
@@ -85,7 +114,54 @@ userSchema.methods.generateRefreshToken =  function(){
     )
 };
 
+// New subscription-related methods
+userSchema.methods.hasActiveSubscription = async function() {
+    if (!this.currentSubscription) return false;
+    
+    const Subscription = mongoose.model("Subscription");
+    const subscription = await Subscription.findById(this.currentSubscription);
+    
+    return subscription && subscription.isActive();
+};
+
+userSchema.methods.getCurrentSubscription = async function() {
+    if (!this.currentSubscription) return null;
+    
+    const Subscription = mongoose.model("Subscription");
+    return await Subscription.findById(this.currentSubscription).populate('plan');
+};
+
+userSchema.methods.canPerformAction = async function(action, quantity = 1) {
+    // Check if user has active subscription
+    const subscription = await this.getCurrentSubscription();
+    
+    if (!subscription || !subscription.isActive()) {
+        // Check if user is in trial
+       
+        return { allowed: false, reason: "no_active_subscription" };
+    }
+    
+    // Check specific limits based on action
+    switch (action) {
+        case 'generate_mcq':
+            if (!subscription.canGenerateMcq()) {
+                return { allowed: false, reason: "mcq_limit_exceeded" };
+            }
+            break;
+        case 'export_pdf':
+            if (!subscription.canExportPdf()) {
+                return { allowed: false, reason: "export_limit_exceeded" };
+            }
+            break;
+    }
+    
+    return { allowed: true, subscription };
+};
+
+userSchema.index({ currentSubscription: 1 });
+userSchema.index({ email: 1, isActive: 1 });
+
 
  const User = mongoose.model("User", userSchema);
 
- module.exports = User
+ module.exports = User;

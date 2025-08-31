@@ -1,11 +1,6 @@
 const { connectDb } = require("./db/dbConfig.js");
 const { app } = require("./app.js");
 const dotenv = require('dotenv');
-
-
-// import {connectDb} from "./db/dbConfig.js";
-// import { app } from "./app.js";
-// import dotenv from 'dotenv';
 dotenv.config();
 
 connectDb()

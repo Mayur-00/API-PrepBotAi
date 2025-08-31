@@ -14,6 +14,7 @@
     "bcrypt": "^6.0.0",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
+    "crypto": "^1.0.1",
     "dotenv": "^17.0.1",
     "express": "^5.1.0",
     "express-fileupload": "^1.5.2",
@@ -27,6 +28,7 @@
     "multer": "^2.0.1",
     "pdf-parse": "^1.1.1",
     "pdfkit": "^0.17.1",
+    "razorpay": "^2.9.6",
     "uuid": "^11.1.0"
   }
 }

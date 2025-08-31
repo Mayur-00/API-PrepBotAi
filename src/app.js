@@ -6,6 +6,7 @@ const pdfRouter = require("./routes/mcq.route.js");
 const authRouter = require("./routes/auth.routes.js");
 const healthRouter = require("./routes/health.routes.js");
 const analyticsRouter = require("./routes/analytics.routes.js")
+const  subscriptionRouter= require("./routes/subscription.routes.js")
 const cors = require("cors");
 const { rateLimit } = require("express-rate-limit");
 const { ApiResponse } = require("./utils/apiResponse.js");
@@ -50,6 +51,7 @@ app.use('/api/v1/mcq', pdfRouter);
 app.use('/api/v1/auth', authRouter);
 app.use('/api/v1/health', healthRouter);
 app.use('/api/v1/analytic', analyticsRouter);
+app.use('/api/v1/subscription', subscriptionRouter);
 
 app.use(handleError);
 

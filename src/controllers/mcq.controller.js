@@ -19,7 +19,6 @@ const generateMcq = asyncHandler(async (req, res) => {
     const sessionUserId = req.user._id;
     const { title, difficulty, subject } = req.body;
     
-
     if (!title || !subject) {
        throw new ApiError(404, "please provide title or subject")
     }
