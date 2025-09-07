@@ -1,5 +1,6 @@
 const {ApiError} = require("../utils/apiError.js");
 const mongoose = require("mongoose");
+const logger = require("../logger/winson.logger.js");
 
 
 const handleError = (err, req, res, ) => {
@@ -27,7 +28,7 @@ const handleError = (err, req, res, ) => {
     };
 
     if (IsInDevelopmet) response.stack = error.stack;
-    if(IsInDevelopmet) console.error(error);
+    logger.error(`${error.message}`);
    
 
     res.status(error.statusCode).json(response)

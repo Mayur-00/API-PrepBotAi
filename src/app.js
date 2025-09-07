@@ -10,7 +10,8 @@ const  subscriptionRouter= require("./routes/subscription.routes.js")
 const cors = require("cors");
 const { rateLimit } = require("express-rate-limit");
 const { ApiResponse } = require("./utils/apiResponse.js");
-const handleError = require("./middlewares/error.middleware.js")
+const handleError = require("./middlewares/error.middleware.js");
+const  morganMiddleware  = require('./logger/morgan.logger.js');
 dotenv.config();
 
 const app = express();
@@ -46,6 +47,7 @@ app.use(express.urlencoded({
 
 app.use(cookieParser());
 
+app.use(morganMiddleware)
 
 app.use('/api/v1/mcq', pdfRouter);
 app.use('/api/v1/auth', authRouter);
