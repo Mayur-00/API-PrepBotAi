@@ -4,7 +4,10 @@ const asyncHandler = require("../utils/asyncHandler.js");
 const User = require("../models/user.model.js");
 const Mcq = require("../models/mcq.model.js");
 const { validateUser, validateUserSignin } = require('../utils/validateUser.js');
-const { formatMsToMinutesSeconds } = require("../utils/utilities.js")
+const { formatMsToMinutesSeconds } = require("../utils/utilities.js");
+const Subscription = require("../models/subscription.model.js");
+const SubscriptionPlan = require("../models/subscriptionPlan.model.js");
+const subscriptionService = require("../services/subscription.service.js");
 
 
 const generateAccessTokenAndRefreshToken = async (userId) => {
@@ -55,6 +58,7 @@ const register = asyncHandler(async (req, res) => {
       }
    );
 
+
    // console.log(newUser)
 
 
@@ -62,7 +66,33 @@ const register = asyncHandler(async (req, res) => {
    // console.log(createdUser)
 
    if (!createdUser) throw new ApiError(500, "something went wrong while creating user");
+   const plan = await SubscriptionPlan.findOne({name:"free"})
+   if(!plan){
+       throw new ApiError(404, "subscription plan not found")
+   };
+    const startDate = new Date();
+    const endDate = new Date(startDate);
+   endDate.setMonth(endDate.getMonth() + 1);
+ const freeSubscription =new Subscription({
+                user: created._id,
+                plan: plan._id,
+                status: 'active',
+                startDate,
+                endDate,
+                paymentMethod:"manual",
+                usage: {
+                    mcqsGenerated: 0,
+                    mcqsRemaining: plan.features.mcqsPerMonth,
+                    pdfExported: 0,
+                    pdfExportRemaining: plan.features.exportsPerMonth
+                }
+            });
+            await freeSubscription.save();
 
+               await User.findByIdAndUpdate(createdUser._id, {
+                            currentSubscription: freeSubscription._id,
+                            $push: { currentSubscription: freeSubscription._id}
+                        });
 
    res.status(200).json(
       new ApiResponse(200, createdUser, "user created successfully")

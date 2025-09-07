@@ -25,10 +25,11 @@ class subscriptionService {
                 endDate.setFullYear(endDate.getFullYear() + 1);
             }
 
+          
             // Create subscription
             const subscription = new Subscription({
                 user: userId,
-                plan: planId,
+                plan: plan._id,
                 status: 'pending',
                 startDate,
                 endDate,
