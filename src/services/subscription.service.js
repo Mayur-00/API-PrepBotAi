@@ -2,6 +2,7 @@ const User = require("../models/user.model.js");
 const SubscriptionPlan = require("../models/subscriptionPlan.model.js");
 const Subscription = require("../models/subscription.model.js");
 const UsageLog = require("../models/usage.model.js");
+const razorpayService = require("./razorpay.service.js");
 
 
 
@@ -51,7 +52,7 @@ class subscriptionService {
 
 
       // Activate subscription after successful payment
-    async activateSubscription(subscriptionId, razorpayData = {}) {
+    async activateSubscription(subscriptionId) {
         try {
             const subscription = await Subscription.findById(subscriptionId);
             if (!subscription) throw new Error('Subscription not found');

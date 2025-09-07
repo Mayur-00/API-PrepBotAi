@@ -1,6 +1,5 @@
-const Subscription = require("../models/subscription.model.js");
+
 const SubscriptionPlan = require("../models/subscriptionPlan.model.js");
-const Razorpay = require("razorpay");
 const Payment = require("../models/payment.model.js");
 const asyncHandler = require("../utils/asyncHandler.js");
 const { ApiError } = require("../utils/apiError.js")

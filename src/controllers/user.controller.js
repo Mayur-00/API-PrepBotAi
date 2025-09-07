@@ -2,12 +2,10 @@ const { ApiError } = require("../utils/apiError.js")
 const { ApiResponse } = require("../utils/apiResponse.js");
 const asyncHandler = require("../utils/asyncHandler.js");
 const User = require("../models/user.model.js");
-const Mcq = require("../models/mcq.model.js");
 const { validateUser, validateUserSignin } = require('../utils/validateUser.js');
-const { formatMsToMinutesSeconds } = require("../utils/utilities.js");
 const Subscription = require("../models/subscription.model.js");
 const SubscriptionPlan = require("../models/subscriptionPlan.model.js");
-const subscriptionService = require("../services/subscription.service.js");
+const jwt = require("jsonwebtoken")
 
 
 const generateAccessTokenAndRefreshToken = async (userId) => {
@@ -34,7 +32,7 @@ const register = asyncHandler(async (req, res) => {
 
    // console.log(UserData)
 
-   const { error, value } = validateUser.validate(UserData);
+   const { error } = validateUser.validate(UserData);
    if (error) {
       // console.log(error.details[0].message)
       throw new ApiError(400, error.details[0].message);
@@ -74,7 +72,7 @@ const register = asyncHandler(async (req, res) => {
     const endDate = new Date(startDate);
    endDate.setMonth(endDate.getMonth() + 1);
  const freeSubscription =new Subscription({
-                user: created._id,
+                user: createdUser._id,
                 plan: plan._id,
                 status: 'active',
                 startDate,
@@ -103,7 +101,7 @@ const login = asyncHandler(async (req, res) => {
 
    const { email, password } = req.body;
 
-   const { error, value } = validateUserSignin.validate({
+   const { error } = validateUserSignin.validate({
       email, password
    });
 
@@ -233,8 +231,7 @@ const changeCurrentPassword = asyncHandler(async (req, res) => {
 
    await user.save({ validateBeforeSave: false });
 
-   return res.status(200),
-      json(new ApiResponse(200, {}, "password Changed Successfully!"))
+   return res.status(200).json(new ApiResponse(200, {}, "password Changed Successfully!"))
 
 
 

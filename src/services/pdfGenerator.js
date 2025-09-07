@@ -1,7 +1,6 @@
 const markdownpdf = require("markdown-pdf");
 const subscriptionService = require("../services/subscription.service.js");
 const { ApiError } = require('../utils/apiError.js');
-const Subscription = require("../models/subscription.model.js");
 
 const exportMarkdownToPdf = async (markdown, title, res,userId, subscriptionId) => {
  
@@ -19,8 +18,8 @@ const exportMarkdownToPdf = async (markdown, title, res,userId, subscriptionId) 
 
 
     } catch (error) {
-     
-        throw new ApiError(500, "Pdf Generation Failed")
+
+        throw new ApiError(500, "Pdf Generation Failed", error)
         
     }
 };

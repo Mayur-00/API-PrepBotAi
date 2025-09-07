@@ -1,6 +1,4 @@
-const Subscription = require("../models/subscription.model.js");
 const User = require("../models/user.model.js");
-const UsageLog = require("../models/usage.model.js");
 const { ApiError } = require("../utils/apiError.js");
 const  asyncHandler  = require("../utils/asyncHandler.js");
 

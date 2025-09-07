@@ -4,7 +4,7 @@ const { verifyJwt } = require("../middlewares/auth.middleware.js");
 
 const router = express.Router();
 
-router.post("/create-order",verifyJwt ,createSubscriptionOrder)
+router.post("/subscribe",verifyJwt ,createSubscriptionOrder)
 router.post("/verify-payment",verifyJwt ,verifyPayment);
 router.get("/get-plans", getPlans);
 

@@ -20,11 +20,6 @@ const subscriptionPlanSchema = new mongoose.Schema(
             min:0
         },
 
-        description : {
-            type:String,
-            required:true
-        },
-
         currency : {
             type : String,
             enum : ["INR", "USD"],

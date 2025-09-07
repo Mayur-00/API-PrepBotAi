@@ -2,7 +2,7 @@ const {ApiError} = require("../utils/apiError.js");
 const mongoose = require("mongoose");
 
 
-const handleError = (err, req, res, next) => {
+const handleError = (err, req, res, ) => {
     let error = err;
 
     const IsInDevelopmet = process.env.NODE_ENV === "development"

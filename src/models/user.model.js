@@ -21,7 +21,7 @@ const userSchema = new mongoose.Schema(
             lowercase: true,
             trim: true,
             index: true,
-            match: [/.+\@.+\..+/, "Please fill a valid email address"]
+            match: [/.+@.+\..+/, "Please fill a valid email address"]
         },
         password: {
             type: String,
@@ -128,10 +128,10 @@ userSchema.methods.getCurrentSubscription = async function() {
     if (!this.currentSubscription) return null;
     
     const Subscription = mongoose.model("Subscription");
-    return await Subscription.findById(this.currentSubscription).populate('plan');
+    return await Subscription.findById(this.currentSubscription).populate('plan').lean();
 };
 
-userSchema.methods.canPerformAction = async function(action, quantity = 1) {
+userSchema.methods.canPerformAction = async function(action, ) {
     // Check if user has active subscription
     const subscription = await this.getCurrentSubscription();
     

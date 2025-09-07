@@ -7,11 +7,9 @@ const { generateMCQsFromTextGemini } = require("../services/mcqGeneratorGemeni.s
 const Mcq = require("../models/mcq.model.js");
 const mongoose = require("mongoose");
 const { validateSubmit } = require("../utils/validateMcq.js");
-const User = require("../models/user.model.js");
 const Attempt = require("../models/attempt.model.js");
 const { generatePdfTempletFromJsonGemini } = require("../services/pdfTempleteGenerator.js");
 const { exportMarkdownToPdf } = require("../services/pdfGenerator.js");
-const Subscription = require("../models/subscription.model.js");
 const subscriptionService = require("../services/subscription.service.js");
 
 
@@ -203,11 +201,8 @@ const deleteMcq = asyncHandler(async (req, res) => {
         throw new ApiError(400, "bad request");
     };
 
-    const deletedMcq = await Mcq.findOneAndDelete({ _id: id, owner: sessionUserId });
+  await Mcq.findOneAndDelete({ _id: id, owner: sessionUserId });
 
-    // if (!deletedMcq) {
-    //     throw new ApiError(404, "questions not found");
-    // };
 
     res.status(200).json(
         new ApiResponse(200, "questions deleted successfully")
@@ -267,7 +262,6 @@ const search = asyncHandler(async (req, res) => {
 
 const exportPdf = asyncHandler(async (req, res) => {
     const { id } = req.query;
-    const sessionUserId = req.user._id;
 
     if (!id) {
         throw new ApiError(404, "id not found");

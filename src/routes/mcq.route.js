@@ -3,7 +3,7 @@ const { generateMcq, getMcq, getAllMcqs, submitAttempt, deleteMcq, search, expor
 const multer = require("multer");
 const {verifyJwt} = require("../middlewares/auth.middleware.js");
 
-const {checkActiveSubscriptionAndUsageLimit, checkUsageLimit} = require("../middlewares/subscription.middleware.js")
+const {checkActiveSubscriptionAndUsageLimit} = require("../middlewares/subscription.middleware.js")
 
 
 const storage = multer.memoryStorage();

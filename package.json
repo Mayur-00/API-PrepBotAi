@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node src/index.js",
+    "lint": "eslint .",
     "dev": "nodemon src/index.js"
   },
   "author": "mayur.k",
@@ -30,5 +31,10 @@
     "pdfkit": "^0.17.1",
     "razorpay": "^2.9.6",
     "uuid": "^11.1.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.35.0",
+    "eslint": "^9.35.0",
+    "globals": "^16.3.0"
   }
 }

@@ -13,7 +13,9 @@ const getUserInfo = asyncHandler(async (req, res) => {
       throw new ApiError(400, "Not Authenticated")
    };
 
-   const user = await User.findById(sessionUserId).select('-password -refreshToken').lean()
+   const user = await User.findById(sessionUserId).select('-password -refreshToken')
+
+   const subscription = await user.getCurrentSubscription();
 
    if (!user) {
       throw new ApiError(404, "not found")
@@ -61,7 +63,8 @@ const getUserInfo = asyncHandler(async (req, res) => {
          totalAttempts: Attempts.length || 0,
          totalMcqs: mcqs || 0,
          recent: Attempts,
-         user: user
+         user: user,
+         subscription
       }, "success")
    );
 

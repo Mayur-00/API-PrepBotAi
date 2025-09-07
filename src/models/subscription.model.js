@@ -22,8 +22,8 @@ const subscriptionSchema = new mongoose.Schema(
         },
         startDate: {
             type: Date,
-            required: true,
             default: Date.now,
+            required: true,
         },
 
         endDate: {

@@ -32,7 +32,7 @@ Built as a learning, portfolio, and potential product project.
 
 1. **Clone the repo**
    ```sh
-   git clone https://github.com/yourusername/prepBotAi-API.git
+   git clone https://github.com/Mayur-00/API-PrepBotAi.git
    cd prepBotAi-API
    ```
 
@@ -81,7 +81,8 @@ Built as a learning, portfolio, and potential product project.
 
 ### Subscription
 - `POST /api/v1/subscription/subscribe` – Subscribe to a plan
-- `GET /api/v1/subscription/status` – Get current subscription
+- `POST /api/v1/subscription/verify-payment` – verify payment created by user
+- `GET /api/v1/subscription/get-plans` – Get current subscription plans
 
 ### Analytics
 - `GET /api/v1/analytics/user` – Get user stats

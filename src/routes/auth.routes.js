@@ -1,6 +1,6 @@
 const {Router} = require("express");
 const {verifyJwt} = require("../middlewares/auth.middleware.js")
-const {register, login, logoutUser, refreshAccessToken, getUserInfo} = require("../controllers/user.controller.js");
+const {register, login, logoutUser, refreshAccessToken} = require("../controllers/user.controller.js");
 
 const router = Router();
 

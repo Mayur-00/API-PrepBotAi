@@ -58,7 +58,8 @@ Only return valid JSON. Here is the text:
       return {
         success: false,
         message: "AI output was not valid JSON.",
-        rawOutput: textResponse
+        rawOutput: textResponse,
+        error:parseError
       };
     }
  
