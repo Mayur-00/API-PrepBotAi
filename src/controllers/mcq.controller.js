@@ -46,7 +46,9 @@ const generateMcq = asyncHandler(async (req, res) => {
     const mcq = await generateMCQsFromTextGemini(result.data, difficulty);
 
     if (!mcq.success) {
-        throw new ApiError(500, "Failed to generate MCQs using Gemini.")
+        console.log()
+        throw new ApiError(500, mcq.message)
+
     }
 
     // step 4 : create new Mcq document in database and storing mcqs and related data in it

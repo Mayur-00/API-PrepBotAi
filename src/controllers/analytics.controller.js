@@ -8,6 +8,9 @@ const {ApiResponse} = require("../utils/apiResponse.js")
 
 
 const getUserInfo = asyncHandler(async (req, res) => {
+
+   let formatedtime;
+   let avgScore;
    const sessionUserId = req.user._id;
    if (!sessionUserId) {
       throw new ApiError(400, "Not Authenticated")
@@ -38,9 +41,9 @@ const getUserInfo = asyncHandler(async (req, res) => {
 
    ]);
 
-   if (stats.length === 0) {
-      throw new ApiError(404, "Data not found");
-   };
+   // if (stats.length === 0) {
+   //    throw new ApiError(404, "Data not found");
+   // };
 
    const mcqs = await Mcq.countDocuments({ owner: sessionUserId }).lean();
    const Attempts = await Attempt.find({ attemptedBy: sessionUserId },).lean();
@@ -53,12 +56,15 @@ const getUserInfo = asyncHandler(async (req, res) => {
    if(mcqs === undefined ||!mcqs){
     throw new ApiError(404, "An Error Occured")
    }
+ if(stats.length > 0){
 
-   const formatedtime = formatMsToMinutesSeconds(stats[0].avgTime)
+    formatedtime = formatMsToMinutesSeconds(stats[0].avgTime)
+     avgScore =  parseFloat(stats[0].avgScore?.toFixed(2) || "0.00")
+ }
 
    res.json(
       new ApiResponse(200, {
-         averageScore: parseFloat(stats[0].avgScore?.toFixed(2) || "0.00"),
+         averageScore: avgScore|| '0.00',
          averageTimeSpent: formatedtime,
          totalAttempts: Attempts.length || 0,
          totalMcqs: mcqs || 0,

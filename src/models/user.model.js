@@ -133,7 +133,8 @@ userSchema.methods.getCurrentSubscription = async function() {
 
 userSchema.methods.canPerformAction = async function(action, ) {
     // Check if user has active subscription
-    const subscription = await this.getCurrentSubscription();
+   const Subscription = mongoose.model("Subscription");
+    const subscription = await Subscription.findById(this.currentSubscription);
     
     if (!subscription || !subscription.isActive()) {
         // Check if user is in trial

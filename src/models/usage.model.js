@@ -15,7 +15,7 @@ const usageLogSchema = new Mongoose.Schema(
         },
         action: {
             type: String,
-            enum: ["mcq_generated", "pages_processed", "storage_used", "mcq_attempted"],
+            enum: ["mcq_generated", "pdf_exported",  ],
             required: true,
             index: true
         },

@@ -5,6 +5,7 @@
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const {DB_NAME} = require("../constants.js");
+const logger = require("../logger/winson.logger.js");
 dotenv.config();
 
 
@@ -13,7 +14,7 @@ const connectDb = async () => {
         await mongoose.connect(`${process.env.DB_URI}/${DB_NAME}`);
         console.log("database connected ! ");
     } catch (error) {
-        console.log("database connection failed :", error)
+       logger.error("database connection error :", error)
         process.exit(1);
     }
 };

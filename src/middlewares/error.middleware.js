@@ -3,7 +3,8 @@ const mongoose = require("mongoose");
 const logger = require("../logger/winson.logger.js");
 
 
-const handleError = (err, req, res, ) => {
+const handleError = (err, req, res, next ) => {
+    console.log("handle error")
     let error = err;
 
     const IsInDevelopmet = process.env.NODE_ENV === "development"

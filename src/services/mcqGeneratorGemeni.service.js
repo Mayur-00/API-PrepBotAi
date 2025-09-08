@@ -53,13 +53,17 @@ Only return valid JSON. Here is the text:
    let finalJson;
     try {
       finalJson = JSON.parse(jsonString);
-    } catch (parseError) {
-      // console.error("Failed to parse Gemini output as JSON:", parseError);
+
+    } catch (error) {
+      console.log(error);
+      
+      console.log(textResponse)
+
       return {
         success: false,
         message: "AI output was not valid JSON.",
         rawOutput: textResponse,
-        error:parseError
+        error:error
       };
     }
  
@@ -75,7 +79,8 @@ Only return valid JSON. Here is the text:
       //  console.error("Gemini MCQ generation failed:", error);
     return {
       success: false,
-      message: error.message
+      message: error.message,
+
     };
   }
 };

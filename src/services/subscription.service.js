@@ -126,7 +126,7 @@ class subscriptionService {
             if (subscription) {
                 switch (action) {
                     case 'mcq_generated':
-                        subscription.usage.mcqsGenerated += quantity;
+                        subscription.usage. mcqsGenerated += quantity;
                         subscription.usage.mcqsRemaining = Math.max(0, subscription.usage.mcqsRemaining - quantity);
                         break;
                     case 'pdf_exported':
@@ -139,7 +139,7 @@ class subscriptionService {
 
             return usageLog;
         } catch (error) {
-            throw new Error(`Usage logging failed: ${error.message}`);
+            return new Error(`Usage logging failed: ${error.message}`);
         }
     };
 

@@ -59,12 +59,10 @@ const register = asyncHandler(async (req, res) => {
 
    // console.log(newUser)
 
+   if (!newUser) throw new ApiError(500, "something went wrong while creating user");
 
-   const createdUser = await User.findById(newUser._id).select("-password -refreshToken");
-   // console.log(createdUser)
-
-   if (!createdUser) throw new ApiError(500, "something went wrong while creating user");
-   const plan = await SubscriptionPlan.findOne({name:"free"})
+   const plan = await SubscriptionPlan.findOne({name:"Free"})  
+   
    if(!plan){
        throw new ApiError(404, "subscription plan not found")
    };
@@ -72,7 +70,7 @@ const register = asyncHandler(async (req, res) => {
     const endDate = new Date(startDate);
    endDate.setMonth(endDate.getMonth() + 1);
  const freeSubscription =new Subscription({
-                user: createdUser._id,
+                user: newUser._id,
                 plan: plan._id,
                 status: 'active',
                 startDate,
@@ -87,13 +85,13 @@ const register = asyncHandler(async (req, res) => {
             });
             await freeSubscription.save();
 
-               await User.findByIdAndUpdate(createdUser._id, {
+            const updatedUser = await User.findByIdAndUpdate(newUser._id, {
                             currentSubscription: freeSubscription._id,
-                            $push: { currentSubscription: freeSubscription._id}
-                        });
+                            $push: { SubscriptionHistory: freeSubscription._id}
+                        }, {new:true}).select("-password -refreshToken")
 
    res.status(200).json(
-      new ApiResponse(200, createdUser, "user created successfully")
+      new ApiResponse(200, updatedUser, "user created successfully")
    );
 
 });

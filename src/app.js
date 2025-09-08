@@ -54,7 +54,7 @@ app.use('/api/v1/auth', authRouter);
 app.use('/api/v1/health', healthRouter);
 app.use('/api/v1/analytic', analyticsRouter);
 app.use('/api/v1/subscription', subscriptionRouter);
-
 app.use(handleError);
+
 
 module.exports = { app }
