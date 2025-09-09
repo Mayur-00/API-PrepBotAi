@@ -11,7 +11,10 @@ const getUserInfo = asyncHandler(async (req, res) => {
 
    let formatedtime;
    let avgScore;
+
+
    const sessionUserId = req.user._id;
+   
    if (!sessionUserId) {
       throw new ApiError(400, "Not Authenticated")
    };
@@ -47,7 +50,7 @@ const getUserInfo = asyncHandler(async (req, res) => {
 
    const mcqs = await Mcq.countDocuments({ owner: sessionUserId }).lean();
    const Attempts = await Attempt.find({ attemptedBy: sessionUserId },).lean();
-   console.log(Attempts);
+   // console.log(Attempts);
    
 
    if(!Attempts){
@@ -55,12 +58,12 @@ const getUserInfo = asyncHandler(async (req, res) => {
    }
    if(mcqs === undefined ||!mcqs){
     throw new ApiError(404, "An Error Occured")
-   }
+   };
  if(stats.length > 0){
 
-    formatedtime = formatMsToMinutesSeconds(stats[0].avgTime)
-     avgScore =  parseFloat(stats[0].avgScore?.toFixed(2) || "0.00")
- }
+    formatedtime = formatMsToMinutesSeconds(stats[0].avgTime);
+     avgScore =  parseFloat(stats[0].avgScore?.toFixed(2) || "0.00");
+ };
 
    res.json(
       new ApiResponse(200, {

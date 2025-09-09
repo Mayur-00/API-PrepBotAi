@@ -4,6 +4,6 @@ const { getUserInfo } = require("../controllers/analytics.controller.js");
 
 const router = express.Router();
 
-router.get("/dashboard", verifyJwt, getUserInfo);
+router.get("/user", verifyJwt, getUserInfo);
 
 module.exports = router;
