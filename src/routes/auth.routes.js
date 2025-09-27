@@ -8,6 +8,6 @@ const router = Router();
 router.post("/register", register);
 router.post("/login", login);
 router.post("/logoutUser",verifyJwt, logoutUser);
-router.post("/renewAccess", verifyJwt, refreshAccessToken);
+router.get("/renewAccess", verifyJwt, refreshAccessToken);
 
 module.exports = router;
